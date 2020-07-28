@@ -40,12 +40,15 @@ class PartyTests(unittest.TestCase):
         self.assertIn(b'Party Details', result.data)
 
     def test_rsvp_mel(self):
-        """Can we keep Mel out?"""
 
-        # FIXME: write a test that mel can't invite himself
-        pass
-        print('FIXME')
+        mel_info = {'name': 'Mel Melitpolski', 'email': 'mel@ubermelon.com'}
 
+        result = self.client.post('/rsvp', data=mel_info,
+                                  follow_redirects=True)
+
+        self.assertIn(b'kind of awkward', result.data)
+
+        self.assertNotIn(b'Party Details', result.data)
 
 if __name__ == '__main__':
     unittest.main()
